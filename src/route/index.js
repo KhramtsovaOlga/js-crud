@@ -14,12 +14,15 @@ class User {
     this.password = password
     this.id = new Date().getTime()
   }
+
+  veryfyPassword = (password) => this.password === password
+
   static add = (user) => {
     this.#list.push(user)
   }
   static getList = () => this.#list
 
-  static getById = () =>
+  static getById = (id) =>
     this.#list.find((user) => user.id === id)
 
   static deleteById = (id) => {
@@ -35,15 +38,21 @@ class User {
     }
   }
 
-  static updateById = (id, { email }) => {
+  static updateById = (id, data) => {
     const user = this.getById(id)
+
     if (user) {
-      if (email) {
-        user.email = email
-      }
+      this.update(user, data)
+
       return true
     } else {
       return false
+    }
+  }
+
+  static update = (user, { email }) => {
+    if (email) {
+      user.email = email
     }
   }
 }
@@ -54,13 +63,14 @@ class User {
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/', function (req, res) {
-  const list = User.getList()
   // res.render генерує нам HTML сторінку
+  const list = User.getList()
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('index', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'index',
+
     data: {
       users: {
         list,
@@ -68,48 +78,61 @@ router.get('/', function (req, res) {
       },
     },
   })
-
   // ↑↑ сюди вводимо JSON дані
 })
 
 // ================================================================
 
-// ↙️ тут вводимо шлях (PATH) до сторінки
 router.post('/user-create', function (req, res) {
+  // res.render генерує нам HTML сторінку
   const { email, login, password } = req.body
 
   const user = new User(email, login, password)
 
-  console.log(User.getList())
-
   User.add(user)
+
+  console.log(User.getList())
+  // ↙️ cюди вводимо назву файлу з сontainer
   res.render('success-info', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'success-info',
     info: 'Користувач створений',
   })
+  // ↑↑ сюди вводимо JSON дані
 })
 
+// ================================================================
+
 router.get('/user-delete', function (req, res) {
+  // res.render генерує нам HTML сторінку
   const { id } = req.query
 
   User.deleteById(Number(id))
 
+  // ↙️ cюди вводимо назву файлу з сontainer
   res.render('success-info', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'success-info',
     info: 'Користувач видалений',
   })
 })
 
 router.post('/user-update', function (req, res) {
+  // res.render генерує нам HTML сторінку
   const { email, password, id } = req.body
 
-  console.log(email, password, id)
+  let result = false
 
-  const result = User.updateById(id, email)
+  const user = User.getById(Number(id))
+
+  if (user.veryfyPassword(password)) {
+    User.update(user, { email })
+    result = true
+  }
 
   res.render('success-info', {
     style: 'success-info',
-    info: result ? 'Пошта оновлена' : 'Сталася помилка',
+    info: result ? 'Email оновлений' : 'Сталася помилка',
   })
 })
 
