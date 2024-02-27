@@ -159,6 +159,50 @@ router.post('/product-edit', function (req, res) {
   }
 })
 
+router.get('/product-delete', function (req, res) {
+  const { id } = req.query
+  const product = Product.getById(Number(id))
+
+  if (product) {
+    return res.render('product-delete', {
+      style: 'product-delete',
+      data: {
+        name: product.name,
+        price: product.price,
+        id: product.id,
+        description: product.description,
+      },
+    })
+  } else {
+    res.render('alert', {
+      style: 'alert',
+      info: 'Товар з таким ID не знайдено',
+    })
+  }
+})
+
+router.post('/product-delete', function (req, res) {
+  const { id, name, price, description } = req.body
+  const product = Product.updateById(Number(id), {
+    name,
+    price,
+    description,
+  })
+  console.log(id)
+  console.log(product)
+  if (product) {
+    res.render('product-delete', {
+      style: 'product-delete',
+      info: 'Товар успішно видалено',
+    })
+  } else {
+    res.render('alert', {
+      style: 'alert',
+      info: 'Сталася помилка',
+    })
+  }
+})
+
 router.get('/product-card', function (req, res) {
   // res.render генерує нам HTML сторінку
 
