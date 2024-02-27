@@ -8,13 +8,17 @@ const router = express.Router()
 class Product {
   static #list = []
 
-  constructor(id, createDate, name, price, description) {
-    this.id = Math.floor(Math.random() * 90000) + 10000
-    this.createDate = new Date().toISOString()
+  constructor(name, price, description) {
     this.name = name
     this.price = price
     this.description = description
+
+    this.id = Math.floor(Math.random() * 100000)
+    this.createDate = () => {
+      this.date = new Date().toISOString()
+    }
   }
+
   static getList = () => this.#list
 
   static add = (product) => {
@@ -155,5 +159,15 @@ router.post('/product-edit', function (req, res) {
   }
 })
 
+router.get('/product-card', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('product-card', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'product-card',
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
 // Підключаємо роутер до бек-енду
 module.exports = router

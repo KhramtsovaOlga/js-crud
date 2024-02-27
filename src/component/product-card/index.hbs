@@ -8,12 +8,13 @@
         <div
           class='product__description'
         >{{description}}</div>
-        <div class='product__id'>ID: {{id}}</div>
+        <div class='product__id'>ID:{{id}}</div>
         <div class='product__row'>
           <div class='product__price'>{{price}}$</div>
-          <a class='edit__button'><a
-              href='/product-edit?id={{id}}'
-            >Редагувати</a>
+          <a
+            class='edit__button'
+            href='/product-edit?id={{id}}'
+          >Редагувати</a>
         </div>
       </div>
     {{/each}}

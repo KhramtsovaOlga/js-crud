@@ -5,6 +5,47 @@
 
 <div>
   <h1 class='title'>Список товарів</h1>
+    <div class="grid__container">
+    <div class='product__card'>
+        <div class='product__name'>Спортивні кросівки</div>
+        <div
+          class='product__description'
+        >Зручні та стильні кросівки для активного способу життя</div>
+        <div class='product__id'>ID:{{id}}</div>
+          <div class="inrow">
+          <div class='product__price'>999$</div>
+          <button class="product__edit"><a href="/product-edit?id={{id}}">Редагувати</a></button>
+          </div>
+      </div>
+       <div class='product__card'>
+        <div class='product__name'>Жіночий рюкзак</div>
+        <div  
+          class='product__description'
+        >Елегантна сукня з натуральної тканини</div>
+        <div class='product__id'>ID:{{id}}</div>
+          <div class="inrow">
+          <div class='product__price'>1500$</div>
+          <a
+            class='edit__button'
+            href='/product-edit?id={{id}}'
+          >Редагувати</a>
+          </div>
+      </div>
+       <div class='product__card'>
+        <div class='product__name'>Сонячні окуляри</div>
+        <div
+          class='product__description'
+        >Модні окуляри для захисту очей з якісними лінзами</div>
+        <div class='product__id'>ID:{{id}}</div>
+          <div class="inrow">
+          <div class='product__price'>1299$</div>
+          <a
+            class='edit__button'
+            href='/product-edit?id={{id}}'
+          >Редагувати</a>
+          </div>
+      </div>
+    </div>
     {{> product-card}}
 </div>
  
